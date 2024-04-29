@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
 function Dashboard(){
@@ -6,6 +6,16 @@ function Dashboard(){
     const [price, setPrice] = useState ('');
     const [type, setType] = useState ('');
 
+    const [carData, setCarData] = useState ([]);
+    const fetchCar = async () =>{
+            const response = await axios.get ('http://localhost:3000/api/v1/cars');
+            console.log (response);
+
+            setCar(response.data.data);
+    }
+    useEffect(() => {
+        fetchCar();
+    });
     const handleCreate = async (e) =>{
         e.preventDefault();
         await axios.post ('http://localhost:3000', {
@@ -14,7 +24,7 @@ function Dashboard(){
             type: type,
         });
     }
-     const handlUpdate = async (e) =>{
+     const handleUpdate = async (e) =>{
         e.preventDefault();
         console.log("masuk")
         await axios.patch ('http://localhost:3000', {
@@ -46,9 +56,9 @@ function Dashboard(){
 
             <div className="home-content">
                 <div className="d-grid gap-2 d-md-flex justify-content-md-end">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Add Data</button>
+                    <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Add Data</button>
                 </div>
-                <div classname="overview-boxes" />
+                <div className="overview-boxes" />
                 <table className="table">
                     <thead>
                     <tr>
@@ -59,25 +69,27 @@ function Dashboard(){
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td />
-                        <td />
-                        <td>
-                        <button
-                        type="button"
-                        className="btn btn-success"
-                        data-bs-toggle="modal"
-                        data-bs-target="#exampleModalEdit"
-                        >
-                        Update
-                        </button>
+                        {carData.map((car, index)=>{
+                            <tr>
+                                <td scope="column">{car.carName}</td>
+                                <td scope="column">{car.price}</td>
+                                <td scope="column">{car.type}</td>
+                                <td>
+                                <button
+                                type="button"
+                                className="btn btn-success"
+                                data-bs-toggle="modal"
+                                data-bs-target="#exampleModalEdit"
+                                >
+                                Update
+                                </button>
 
-                        <button type="button" className="btn btn-danger">
-                            Delete
-                        </button>
-                        </td>
-                    </tr>
+                                <button type="button" className="btn btn-danger">
+                                    Delete
+                                </button>
+                                </td>
+                            </tr>
+                        })}
                     </tbody>
                 </table>
             </div>
@@ -112,7 +124,6 @@ function Dashboard(){
                         <input
                         type="text"
                         className="form-control"
-                        value={carName}
                         onChange={(e) => setCarName(e.target.value)}
                         placeholder="please enter car name"
                         />
@@ -124,7 +135,6 @@ function Dashboard(){
                         <input
                         type="integer"
                         className="form-control"
-                        value={price}
                         onChange={(e) => setPrice(e.target.value)}
                         placeholder="Please enter a price"
                         />
@@ -136,7 +146,6 @@ function Dashboard(){
                         <input
                         type="text"
                         className="form-control"
-                        value= {type}
                         onChange={(e)=> setType(e.target.value)}
                         placeholder="please enter car type"
                         />
@@ -179,7 +188,6 @@ function Dashboard(){
                         <input
                             type="text"
                             className="form-control"
-                            value={carName}
                             placeholder="please enter car name"
                         />
                         </div>
@@ -190,7 +198,6 @@ function Dashboard(){
                         <input
                             type="integer"
                             className="form-control"
-                            value={price}
                             placeholder="please enter car name"
                         />
                         </div>
@@ -201,7 +208,6 @@ function Dashboard(){
                         <input
                             type="text"
                             className="form-control"
-                            value={type}
                             placeholder="please enter car name"
                         />
                         </div>
