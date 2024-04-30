@@ -1,4 +1,4 @@
-const createHttpError = require ('http-error');
+const createHttpError = require ('http-errors');
 const {Car} = require("../models");
 
 const getAllCars = async (req,res) => {
@@ -45,7 +45,7 @@ const updateCar = async (req, res) => {
         });
         res.status(201).json({
             status:201,
-            message: "Car successfully updated"
+            message: "Car successfully updated",
         });
     } catch (err) {
         res.status(201).json({

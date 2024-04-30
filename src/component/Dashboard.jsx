@@ -2,20 +2,20 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 function Dashboard(){
-    const [carName, setCarName ] = useState ('');
-    const [price, setPrice] = useState ('');
-    const [type, setType] = useState ('');
+    // const [carName, setCarName ] = useState ('');
+    // const [price, setPrice] = useState ('');
+    // const [type, setType] = useState ('');
 
-    const [carData, setCarData] = useState ([]);
-    const fetchCar = async () =>{
-            const response = await axios.get ('http://localhost:3000/api/v1/cars');
-            console.log (response);
+    const [data, setCarData] = useState ([]);
 
-            setCar(response.data.data);
+    const fetchCar = async () => {
+            const response = await axios.get('http://localhost:3000/api/v1/cars');
+
+            setCarData(response.data.data);
     }
     useEffect(() => {
         fetchCar();
-    });
+    }, [data]);
     const handleCreate = async (e) =>{
         e.preventDefault();
         await axios.post ('http://localhost:3000', {
@@ -69,8 +69,8 @@ function Dashboard(){
                     </tr>
                     </thead>
                     <tbody>
-                        {carData.map((car, index)=>{
-                            <tr>
+                        {data.map((car, index)=>(
+                            <tr className='border-b'>
                                 <td scope="column">{car.carName}</td>
                                 <td scope="column">{car.price}</td>
                                 <td scope="column">{car.type}</td>
@@ -89,7 +89,7 @@ function Dashboard(){
                                 </button>
                                 </td>
                             </tr>
-                        })}
+                        ))}
                     </tbody>
                 </table>
             </div>
