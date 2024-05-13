@@ -3,7 +3,6 @@ const {Car} = require("../models");
 
 const getAllCars = async (req,res) => {
     try {
-
         const cars = await Car.findAll();
 
         res.status(200).json({
@@ -13,7 +12,6 @@ const getAllCars = async (req,res) => {
         });
     } catch (err) {
         next(createHttpError(400, {message:err.message}));
-
     }
 };
 
