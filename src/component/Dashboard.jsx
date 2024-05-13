@@ -136,7 +136,7 @@ function Dashboard() {
 							/>
 						</div>
 						<div className='modal-body'>
-							<form onSubmit={handleCreate}>
+							<form onSubmit={handleUpdate}>
 								<div className='mb-3'>
 									<label
 										htmlFor='input1'
@@ -182,6 +182,7 @@ function Dashboard() {
 								<button
 									type='submit'
 									className='btn btn-primary'
+                                    onSubmit={handleCreate}
 								>
 									Add Data
 								</button>
